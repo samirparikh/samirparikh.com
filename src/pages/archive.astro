@@ -1,0 +1,24 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from '../layouts/BaseLayout.astro'
+import BlogPost from '../components/BlogPost.astro'
+
+const allPosts = await getCollection("blog");
+// Sort posts by `pubDate` in descending order (newest first)
+allPosts.sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+// Create a frontmatter object to match the layout's expectations
+const frontmatter = {
+    title: "Archive"
+};
+---
+<BaseLayout frontmatter={frontmatter}>
+  {allPosts.map((post: any) =>
+    <BlogPost
+      url         = {`/posts/${post.id}/`}
+      title       = {post.data.title}
+      description = {post.data.description}
+      date        = {post.data.pubDate}
+    />
+  )}
+</BaseLayout>
