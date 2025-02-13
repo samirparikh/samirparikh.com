@@ -1,0 +1,41 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogPost from '../../components/BlogPost.astro';
+
+export async function getStaticPaths() {
+  const allPosts = await getCollection("blog");
+  const uniqueTags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
+
+  return uniqueTags.map((tag) => {
+    const filteredPosts = allPosts
+      .filter((post) => post.data.tags.includes(tag))
+      .sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()); // Sort by pubDate in descending order
+
+    return {
+      params: { tag },
+      props: { posts: filteredPosts },
+    };
+  });
+}
+
+// Get the current tag from the URL parameters
+const { tag } = Astro.params;
+// Get the filtered posts passed as props
+const { posts } = Astro.props;
+// Create frontmatter object for the BaseLayout
+const frontmatter = {
+    title: `Posts tagged with "${tag}"`
+};
+---
+<BaseLayout frontmatter={frontmatter}>
+    {/* Map through the filtered posts and render each one using BlogPost component */}
+    {posts.map((post) => 
+        <BlogPost
+          url         = {`/posts/${post.id}/`}
+          title       = {post.data.title}
+          description = {post.data.description}
+          date        = {post.data.pubDate}
+        />
+    )}
+</BaseLayout>

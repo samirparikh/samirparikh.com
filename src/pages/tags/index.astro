@@ -1,0 +1,51 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const allPosts = await getCollection("blog");
+
+// Create a tag count map
+const tagCounts = allPosts.reduce((acc, post) => {
+  post.data.tags.forEach(tag => {
+    acc[tag] = (acc[tag] || 0) + 1;
+  });
+  return acc;
+}, {} as Record<string, number>);
+
+// Extract unique tags and sort them alphabetically
+const tags = Object.keys(tagCounts).sort((a, b) =>
+  a.localeCompare(b, undefined, { sensitivity: 'base' })
+);
+
+const frontmatter = {
+    title: "Tags"
+};
+---
+<style>
+  /*
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  */
+
+  .tag {
+    margin: 1em;
+  }
+
+  .tag-count {
+    font-size: 0.8em; /* Make the count smaller */
+    color: gray;      /* Optional: Make it a lighter color */
+    margin-left: 0.1em; /* Add a little spacing */
+  }
+</style>
+<BaseLayout frontmatter={frontmatter}>
+  <div class="tags">
+    {tags.map((tag) => (
+      <p class="tag">
+        <a href={`/tags/${tag}`}>{tag}</a>
+        <span class="tag-count">({tagCounts[tag]})</span>
+      </p>
+    ))}
+  </div>
+</BaseLayout>
