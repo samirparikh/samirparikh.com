@@ -1,0 +1,81 @@
+---
+/*
+    * This layout is used for markdown files that are blog posts.
+    * It provides a consistent layout for blog posts.
+    * The frontmatter variables are passed to the layout from the markdown file.
+    * The BaseLayout component is used to provide the base layout for the page.
+    * The frontmatter variables are used to display the title, description, author, publication date, and image of the blog post.
+    * The slot is where the content of the blog post will be rendered.
+*/
+
+import BaseLayout from './BaseLayout.astro';
+const { frontmatter } = Astro.props;
+const formattedDate = new Date(frontmatter.pubDate).toLocaleDateString('en-GB', {
+  day: '2-digit',
+  month: 'long',
+  year: 'numeric'
+});
+const currentPath = Astro.url.pathname;
+---
+<style>
+  .publishedOn, .permalink {
+      font-size: 0.8rem;
+      color: #555;
+      margin: 0;
+      text-decoration: none;
+  }
+  
+  .permalink:hover {
+      text-decoration: underline;
+  }
+
+  .taggedUnder {
+      display: flex;
+      align-items: center;
+      font-size: 0.8rem;
+      color: #555;
+  }
+  
+  .taggedUnder p {
+      margin: 0; /* Remove bottom margin that might push tags down */
+      white-space: nowrap; /* Prevent wrapping of "Tagged under:" */
+  }
+  
+  .blogTags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5em;
+      margin-left: 0.5em;
+  }
+  
+  .blogTag {
+      margin: 0;
+      padding: 0;
+      display: inline; /* Ensure tags stay inline */
+  }
+  
+  .blogTagReference {
+      text-decoration: none;
+  }
+  
+  .blogTagReference:hover {
+      text-decoration: underline;
+  }
+</style>
+<BaseLayout frontmatter={frontmatter}>
+    <p><em>{frontmatter.description}</em></p>
+    <slot />
+    <p class="publishedOn">Published on:
+        <a class="permalink" href={currentPath}>{formattedDate}</a>
+    </p>
+    <div class="taggedUnder">
+        <p>Tagged under:</p>
+        <div class="blogTags">
+            {frontmatter.tags.map((tag: string) => (
+                <span class="blogTag">
+                    <a class="blogTagReference" href={`/tags/${tag}`}>{tag}</a>
+                </span>
+            ))}
+        </div>
+    </div>
+</BaseLayout>

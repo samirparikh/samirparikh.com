@@ -1,0 +1,52 @@
+---
+/*
+  * Base layout for all pages
+  * This layout includes the Header and Footer components
+  * The Header component contains the site title and navigation links
+  * The Footer component contains the social media links and license information
+  * The social media links are generated using the Social component
+  * The pageTitle variable is passed to the layout from the page component
+  * The slot is where the content of the page will be rendered
+  * The global styles are imported to style the layout
+  * 
+*/
+import Navigation from '../components/Navigation.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+const { frontmatter } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{frontmatter.title}</title>
+  </head>
+  <body>
+    <div class="container">
+      <Navigation />
+      <Header />
+      <div class="main">
+        <div class="content">
+          <a class="pageTitle" href={currentPath}><h3>{frontmatter.title}</h3></a>
+          <slot />
+        </div> <!-- content -->
+        <div class="sidebar">
+          <aside>
+            <h3>Aside</h3>
+            <p>Aside content</p>
+            <p>Hi! I'm a passionate blogger who loves sharing knowledge and insights. Welcome to my blog!</p>
+            <ul>
+              <li><a href="#">Example Link 1</a></li>
+              <li><a href="#">Example Link 2</a></li>
+              <li><a href="#">Example Link 3</a></li>
+            </ul>            
+          </aside>
+        </div> <!-- sidebar -->
+      </div> <!-- main -->
+      <Footer />
+    </div> <!-- container -->
+  </body>
+</html>
