@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+const pageTitle = "404: Page Not Found";
+const frontmatter = {
+    title: "Page not Found"
+};
+---
+<BaseLayout frontmatter={frontmatter}>
+        <h1>{pageTitle}</h1>
+        <p>I'm sorry but the page you're looking for cannot be found.</p>
+</BaseLayout>
