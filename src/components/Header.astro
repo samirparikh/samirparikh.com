@@ -1,0 +1,36 @@
+---
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+---
+<style>
+  .header {
+      font-size: 2rem;
+      font-weight: bold;
+      /*margin-bottom: 0.5rem;*/
+  }
+  
+  .header a {
+      text-decoration: none;
+      color: #000;
+      display: block;
+      margin: 0;
+  }
+  
+  .header a:hover {
+      text-decoration: underline;
+  }
+  
+  .header em {
+      font-size: 1.2rem;
+      color: #555;
+      /*margin-top: 0;*/
+      display: block;
+  }
+  
+  .header p {
+      margin: 0;
+  }
+</style>
+<header class="header">
+    <a href="/">{SITE_TITLE}</a>
+    <p><em>{SITE_DESCRIPTION}</em></p>
+</header>

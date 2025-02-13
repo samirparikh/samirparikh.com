@@ -1,0 +1,61 @@
+---
+/*
+    * This component is used to render a single blog post in the blog list.
+    * It receives the blog post data as props and renders it in a table row.
+    * The blog post data includes the URL, title, and date of the post.
+    * The URL is used to link to the full blog post.
+    * The title is displayed as a link to the full blog post.
+    * The date is displayed in a separate column.
+    * This component is used in the blog list page to display a list of blog posts.
+    * The list of blog posts is generated from a collection of markdown files.
+    * This file is called from blog.astro.
+*/
+const { url, title, date, description } = Astro.props;
+const formattedDate = new Date(date).toLocaleDateString('en-GB', {
+  day: '2-digit',
+  month: 'long',
+  year: 'numeric'
+});
+---
+<style>
+    .post {
+        margin-bottom: 20px; /* Adds space between blog posts */
+        padding-bottom: 20px; /* Adds padding at the bottom of each post */
+        border-bottom: 1px solid #e0e0e0; /* Adds a light border between posts */
+    }
+
+    .post-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .post-title {
+        margin: 0;
+        font-weight: bold; /* Makes the title bold */
+    }
+
+    .post-date {
+        font-size: 75%; /* Reduces the font size to 75% */
+        color: gray; /* Changes the text color to gray */
+    }
+
+    .post-description {
+        margin-top: 5px;
+        font-style: italic; /* Italicizes the description */
+    }
+</style>
+
+<div class="post">
+    <div class="post-header">
+        <div class="post-title">
+            <a href={url}>{title}</a>
+        </div>
+        <div class="post-date">
+            {formattedDate}
+        </div>
+    </div>
+    <div class="post-description">
+        {description}
+    </div>
+</div>

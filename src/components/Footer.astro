@@ -1,0 +1,33 @@
+---
+import { COPYRIGHT, LICENSE } from '../consts';
+---
+<style>
+  .footer {
+      text-align: center;
+      font-size: 0.8rem;
+      margin-top: 2rem;
+  }
+  
+  .footer a {
+      text-decoration: none;
+      color: #555;
+  }
+  
+  .footer a:hover {
+      text-decoration: underline;
+  }
+  
+  .footer .copyright {
+      margin-bottom: 0.0rem;
+  }
+  
+  .footer .license {
+      margin-top: 0.1rem;
+  }
+</style>
+<footer class="footer">
+  <p class="copyright">{COPYRIGHT}</p>
+  <p class="license">This work is licensed under
+    <a href={LICENSE.url}>{LICENSE.title}</a>
+  </p>
+</footer>
